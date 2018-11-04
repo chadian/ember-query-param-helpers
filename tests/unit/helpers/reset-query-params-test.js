@@ -27,6 +27,51 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     this.owner.register('service:router', MockRouterService)
   });
 
+  test('#routes', function(assert) {
+    this.owner.register("route:a", Route.extend({ routeName: "a" }));
+    
+    this.owner.register("route:a.bunch", Route.extend({
+      routeName: "a.bunch"
+    }));
+    
+    this.owner.register("route:a.bunch.of", Route.extend({
+      routeName: "a.bunch.of"
+    }));
+
+    this.owner.register("route:a.bunch.of.routes", Route.extend({
+      routeName: "a.bunch.of.routes"
+    }));
+
+    this.owner.register("route:application", Route.extend({
+      routeName: "application"
+    }));
+
+    this.owner.register("controller:a", Controller.extend());
+    this.owner.register("controller:a.bunch", Controller.extend());
+    this.owner.register("controller:a.bunch.of", Controller.extend());
+    this.owner.register("controller:a.bunch.of.routes", Controller.extend());
+    this.owner.register("controller:application", Controller.extend());
+
+    this.owner.register("service:router", Service.extend({
+      currentRouteName: "a.bunch.of.routes"
+    }));
+
+    let helper = this.owner.lookup("helper:reset-query-params");
+    let routes = helper.get('routes');
+    let routeNames = routes.map(route => route.get('routeName'));
+
+    assert.deepEqual(
+      routeNames,
+      [
+        "a",
+        "a.bunch",
+        "a.bunch.of",
+        "a.bunch.of.routes",
+        "application"
+      ]
+    );
+  });
+
   test('it can generate reset query params', async function(assert) {
     let helper = this.owner.lookup('helper:reset-query-params');
     let result = helper.compute();

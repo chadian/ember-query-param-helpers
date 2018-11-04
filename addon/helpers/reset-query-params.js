@@ -21,7 +21,7 @@ export default Helper.extend({
     let routeNameSegments = parseRouteName(routeName);
 
     // add the application route
-    routeNameSegments.unshift("application");
+    routeNameSegments.push("application");
 
     let lookupRoute = routeName => getOwner(this).lookup(`route:${routeName}`);
 
