@@ -7,7 +7,6 @@ import { setupTest, settled } from 'ember-qunit';
 
 let ApplicationRoute = Route.extend({ routeName: 'application' });
 let ApplicationController = Controller.extend();
-
 let ParentRoute = Route.extend({ routeName: 'parent'});
 let ParentController = Controller.extend({
 	queryParams: ['emptyString', 'meow', 'null'],
@@ -158,5 +157,23 @@ module('Unit | Helper | reset-query-params', function(hooks) {
         "childProp": "child-prop-default"
       }
     });
+  });
+
+  test('it only generates whitelisted reset query params when specified', function(assert) {
+    let helper = this.owner.lookup('helper:reset-query-params');
+    let parentControllerQueryParams = this.owner.lookup('controller:parent').get('queryParams');
+
+    assert.equal(helper.get('router.currentRouteName'), 'parent');
+    assert.deepEqual(parentControllerQueryParams, ['emptyString', 'meow', 'null'], 'controller has three query params');
+
+    let whitelistedQueryParams = ['emptyString'];
+    let result = helper.compute(whitelistedQueryParams);
+
+    assert.deepEqual(result, {
+      "isQueryParams": true,
+      "values": {
+        "emptyString": undefined
+      }
+    }, 'it contains only whitelisted reset query params');
   });
 });
