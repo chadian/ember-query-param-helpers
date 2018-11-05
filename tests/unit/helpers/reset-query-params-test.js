@@ -3,7 +3,10 @@ import Controller from '@ember/controller';
 import Service from '@ember/service';
 import resetQueryParams from 'dummy/helpers/reset-query-params';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupTest, settled } from 'ember-qunit';
+
+let ApplicationRoute = Route.extend({ routeName: 'application' });
+let ApplicationController = Controller.extend();
 
 let ParentRoute = Route.extend({ routeName: 'parent'});
 let ParentController = Controller.extend({
@@ -21,10 +24,12 @@ module('Unit | Helper | reset-query-params', function(hooks) {
       currentRouteName: 'parent'
     });
 
+    this.owner.register('service:router', MockRouterService);
+    this.owner.register('route:application', ApplicationRoute);
+    this.owner.register('controller:application', ApplicationController); 
     this.owner.register('route:parent', ParentRoute);
     this.owner.register('controller:parent', ParentController);
     this.owner.register('helper:reset-query-params', resetQueryParams, { instantiate: true });
-    this.owner.register('service:router', MockRouterService)
   });
 
   test('#routes', function(assert) {
@@ -42,15 +47,10 @@ module('Unit | Helper | reset-query-params', function(hooks) {
       routeName: "a.bunch.of.routes"
     }));
 
-    this.owner.register("route:application", Route.extend({
-      routeName: "application"
-    }));
-
     this.owner.register("controller:a", Controller.extend());
     this.owner.register("controller:a.bunch", Controller.extend());
     this.owner.register("controller:a.bunch.of", Controller.extend());
     this.owner.register("controller:a.bunch.of.routes", Controller.extend());
-    this.owner.register("controller:application", Controller.extend());
 
     this.owner.register("service:router", Service.extend({
       currentRouteName: "a.bunch.of.routes"
@@ -70,6 +70,23 @@ module('Unit | Helper | reset-query-params', function(hooks) {
         "application"
       ]
     );
+  });
+
+  test('it triggers a recompute when currentRouteName changes', async function(assert) {
+    let helper = this.owner.lookup("helper:reset-query-params");
+
+    let callCount = 0;
+    let recompute = helper.recompute.bind(helper);
+    helper.set('recompute', () => {
+      callCount ++;
+      recompute();
+    });
+
+    helper.set('router.currentRouteName', 'application');
+    helper.set('router.currentRouteName', 'parent');
+
+    await settled();
+    assert.equal(callCount, 2, 'recompute was called twice');
   });
 
   test('it can generate reset query params', async function(assert) {
