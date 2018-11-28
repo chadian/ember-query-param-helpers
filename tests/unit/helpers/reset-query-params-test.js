@@ -176,4 +176,31 @@ module('Unit | Helper | reset-query-params', function(hooks) {
       }
     }, 'it contains only whitelisted reset query params');
   });
+
+  test('it can generate reset query params when a param url key is specified', function(assert) {
+    let helper = this.owner.lookup('helper:reset-query-params');
+
+    let ParentController = Controller.extend({
+      queryParams: [{ meow: { as: 'bark' } }],
+      meow: 'meow'
+    });
+    this.owner.register('controller:parent', ParentController);
+
+    let route = this.owner.lookup('route:parent');
+    let controller = this.owner.lookup('controller:parent');
+
+    // 1. trigger initial get of `_qp` computed, storing the initial value
+    route.get('_qp');
+
+    // 2. set values to something other than their defaults
+    controller.set('meow', 'bark');
+
+    let result = helper.compute();
+    assert.deepEqual(result, {
+      "isQueryParams": true,
+      "values": {
+        "meow": "meow",
+      }
+    });
+  });
 });
