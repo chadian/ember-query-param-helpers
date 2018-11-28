@@ -15,6 +15,8 @@ export function createQueryParams(params=[], hash={}) {
     hash = params[0];
   }
 
+  hash = Object.assign({}, hash);
+
   return {
     isQueryParams: true,
     values: hash
