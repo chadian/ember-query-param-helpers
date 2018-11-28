@@ -1,5 +1,5 @@
 import { getOwner } from "@ember/application";
-import { computed, observer } from "@ember/object";
+import { observer } from "@ember/object";
 import { inject as service } from '@ember/service';
 import { next } from "@ember/runloop";
 import Helper from "@ember/component/helper";
@@ -16,24 +16,10 @@ export default Helper.extend({
     }
   ),
 
-  routes: computed("router.currentRouteName", function() {
-    let routeName = this.get("router.currentRouteName");
-    let routeNameSegments = parseRouteName(routeName);
+  compute(whitelist = [], { route } = {}) {
+    let descendentRoute = route || this.get("router.currentRouteName");
+    let routes = this.getRouteAncestry(descendentRoute);
 
-    // add the application route
-    routeNameSegments.push("application");
-
-    let lookupRoute = routeName => getOwner(this).lookup(`route:${routeName}`);
-
-    let routes = routeNameSegments
-      .map(lookupRoute)
-      .filter(Boolean)
-
-    return routes;
-  }),
-
-  compute(whitelist = []) {
-    let routes = this.get("routes");
     let defaultsQps = routes
       .map(getDefaultQueryParams)
       .reduce((queryParams, qpHash) => {
@@ -62,5 +48,20 @@ export default Helper.extend({
       isQueryParams: true,
       values: defaults
     };
-  }
+  },
+
+  getRouteAncestry(routeName) {
+    let routeNameSegments = parseRouteName(routeName);
+
+    // add the application route
+    routeNameSegments.push("application");
+
+    let lookupRoute = routeName => getOwner(this).lookup(`route:${routeName}`);
+
+    let routes = routeNameSegments
+      .map(lookupRoute)
+      .filter(Boolean)
+
+    return routes;
+  },
 });
