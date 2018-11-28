@@ -108,6 +108,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     assert.deepEqual(result, {
       "isQueryParams": true,
       "values": {
+        "app": "original application qp",
         "applicationQp": 'original application qp',
         "emptyString": undefined,
         "meow": "meow",
@@ -125,6 +126,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     assert.deepEqual(result, {
       "isQueryParams": true,
       "values": {
+        "app": 'original application qp',
         "applicationQp": 'original application qp'
       }
     }, "application query param are generated unaffected by the router's current route");
@@ -144,6 +146,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     assert.deepEqual(result, {
       "isQueryParams": true,
       "values": {
+        "app": "original application qp",
         "applicationQp": "original application qp",
         "emptyString": undefined,
         "meow": "meow",
@@ -162,6 +165,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
       isQueryParams: true,
       values: {
         // from application route
+        app: "original application qp",
         applicationQp: "original application qp",
 
         // from parent route
@@ -209,6 +213,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     assert.deepEqual(result, {
       isQueryParams: true,
       values: {
+        app: "original application qp",
         applicationQp: "original application qp"
       }
     });

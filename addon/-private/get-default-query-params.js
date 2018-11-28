@@ -2,13 +2,9 @@ import { get } from "@ember/object";
 
 export default function getDefaultQueryParams(route) {
   let routeQueryParams = get(route, "_qp.qps");
-  let simplifiedQueryParamsHash = routeQueryParams.reduce((paramsHash, queryParam) => {
-    return Object.assign(
-      {},
-      paramsHash,
-      { [queryParam.prop]: queryParam.defaultValue }
-    );
-  }, {});
 
-  return simplifiedQueryParamsHash;
+  let defaultsByProp = routeQueryParams.map(queryParam => ({ [queryParam.prop]: queryParam.defaultValue }));
+  let defaultsByUrlKey = routeQueryParams.map(queryParam => ({ [queryParam.urlKey]: queryParam.defaultValue }));
+  let defaults = Object.assign.apply(null, [{}].concat(defaultsByProp, defaultsByUrlKey));
+  return defaults;
 }
