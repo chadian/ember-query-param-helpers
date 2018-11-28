@@ -31,7 +31,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     this.owner.register('helper:reset-query-params', resetQueryParams, { instantiate: true });
   });
 
-  test('#routes', function(assert) {
+  test('it generates the `routes` computed property', function(assert) {
     this.owner.register("route:a", Route.extend({ routeName: "a" }));
     
     this.owner.register("route:a.bunch", Route.extend({
@@ -107,7 +107,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     let route = this.owner.lookup('route:parent');
     let controller = this.owner.lookup('controller:parent');
 
-    // 1. trigger initial get of `_qp` computed
+    // 1. trigger initial get of `_qp` computed, storing the initial value
     route.get('_qp');
 
     // 2. set values to something other than their defaults
@@ -139,7 +139,7 @@ module('Unit | Helper | reset-query-params', function(hooks) {
     let parentRoute = this.owner.lookup("route:parent");
     let childRoute = this.owner.lookup("route:parent.child");
 
-    // 1. trigger initial get of `_qp` computed
+    // 1. trigger initial get of `_qp` computed, storing the initial value
     parentRoute.get("_qp");
     childRoute.get("_qp");
 
