@@ -1,17 +1,20 @@
 {
   "name": "ember-query-param-helpers",
   "version": "0.0.0",
+  "author": "Chad Carbert <chadcarbert@me.com> (https://sticksnglue.com)",
   "description": "The default blueprint for ember-cli addons.",
+  "repository": "https://github.com/chadian/ember-query-param-helpers",
+  "homepage": "https://github.com/chadian/ember-query-param-helpers",
+  "bugs": "https://github.com/chadian/ember-query-param-helpers/issues",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "query params"
   ],
   "license": "MIT",
-  "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
   "scripts": {
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
