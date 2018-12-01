@@ -44,7 +44,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.rootURL = '/your-repo-name';
+    ENV.rootURL = 'ember-query-param-helpers';
     ENV.locationType = 'hash';
   }
 
