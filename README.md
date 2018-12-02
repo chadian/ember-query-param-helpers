@@ -1,4 +1,4 @@
-ember-query-param-helpers
+ember-query-param-helpers [![Build Status](https://travis-ci.org/chadian/ember-query-param-helpers.svg?branch=master)](https://travis-ci.org/chadian/ember-query-param-helpers)
 ==============================================================================
 
 This add-on provides a few helpers to help tame query params in your Ember app. Query params in Ember are sticky and require knowing default values so that you properly reset them. Using the built-in `query-param` helper will not remove the existing values either. This add-on makes it easier to reset and set query params. Please see the following documentation, and the [live dummy app](https://chadian.github.io/ember-query-param-helpers/), for more examples of how these helpers can be used.
