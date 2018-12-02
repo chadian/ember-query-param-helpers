@@ -35,13 +35,13 @@ This helper allows you to reset the query params to their default values. By def
 {{link-to "Link!" current-route" (reset-query-params)}}
 ```
 
-####Reset whitelisted query params
+#### Reset whitelisted query params
 
 ```
 {{link-to "Link!" "current-route" (reset-query-params "specificQueryParam")}}
 ```
 
-####Reset query params for specific route
+#### Reset query params for specific route
 
 By default `reset-query-params` does not know the route it is being linked to and will default to the current route. This is useful when the query params are being used for the current route's hierarchy, ie: `sort` and `filter` query params. In the case the `link-to` is navigating to a different route and you need to reset to its default query params you can pass the `route` argument.
 
@@ -68,7 +68,7 @@ Where `qps` could be a reference to an object, for example:
 }
 ```
 
-####Query Params via Named Arguments
+#### Query Params via Named Arguments
 
 Similar to the default behaviour of `query-params`:
 
