@@ -1,6 +1,6 @@
 {
   "name": "ember-query-param-helpers",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Chad Carbert <chadcarbert@me.com> (https://sticksnglue.com)",
   "description": "The default blueprint for ember-cli addons.",
   "repository": "https://github.com/chadian/ember-query-param-helpers",
